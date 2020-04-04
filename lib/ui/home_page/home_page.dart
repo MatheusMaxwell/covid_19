@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'package:covid19/ext/Constants.dart';
 import 'package:covid19/model/Current.dart';
 import 'package:covid19/model/MyResponse.dart';
+import 'package:covid19/ui/countries_list/CountriesList.dart';
 import 'package:covid19/utils/AppSingleton.dart';
 import 'package:covid19/utils/MySharedPreferences.dart';
+import 'package:covid19/utils/SizeRoute.dart';
 import 'package:covid19/utils/Widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   var searchField = "";
   Current current;
+  bool isUpdate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   _body(){
     if(current == null)
-      _getJSONData(false);
+      _getJSONData();
 
     return Stack(
       children: <Widget>[
@@ -81,7 +84,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _button(String text, bool isUpdate){
+  _button(String text, bool isUpdateButton){
     return RaisedButton(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0)
@@ -93,16 +96,16 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
-      color: isUpdate ? Colors.grey: Colors.red,
+      color: isUpdateButton ? Colors.grey: Colors.red,
       onPressed: (){
-        if(isUpdate){
+        if(isUpdateButton){
           setState(() {
+            isUpdate = true;
             current = null;
-            _getJSONData(true);
           });
         }
         else{
-          Navigator.of(context).pushNamed(Constants.COUNTRY_LIST);
+          Navigator.of(context).push(SizeRoute(page: CountriesList()));
         }
       },
     );
@@ -118,7 +121,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _getJSONData(bool isUpdate) async {
+  Future<void> _getJSONData() async {
     String respSharedPref = await MySharedPreferences.getJson(Constants.SHARED_PREFS);
     MyResponse res;
     if(respSharedPref != null && respSharedPref.isNotEmpty && !isUpdate){
@@ -137,6 +140,7 @@ class _HomePageState extends State<HomePage> {
       AppSingleton.myResponse = res;
     }
     setState(() {
+      isUpdate = false;
       current = res.current;
     });
   }

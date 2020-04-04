@@ -98,7 +98,7 @@ class _CountryDetailState extends State<CountryDetail> {
             ),
           ),
         ),
-        placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+        placeholder: (context, url) => Container(height: 220,child: Center(child: CircularProgressIndicator())),
         errorWidget: (context, url, error) => Image.asset("assets/images/emptyimage.jpg"),
       ),
     );

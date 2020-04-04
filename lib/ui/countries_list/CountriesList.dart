@@ -5,7 +5,9 @@ import 'dart:convert';
 import 'package:covid19/ext/Constants.dart';
 import 'package:covid19/model/Country.dart';
 import 'package:covid19/model/MyResponse.dart';
+import 'package:covid19/ui/country_detail/country_detail_page.dart';
 import 'package:covid19/utils/AppSingleton.dart';
+import 'package:covid19/utils/SizeRoute.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -99,7 +101,7 @@ class _CountriesListState extends State<CountriesList> {
     return GestureDetector(
       onTap: (){
         AppSingleton.country = country;
-        Navigator.of(context).pushNamed(Constants.COUNTRY_DETAIL);
+        Navigator.of(context).push(SizeRoute(page: CountryDetail()));
       },
       child: Card(
         elevation: 5,

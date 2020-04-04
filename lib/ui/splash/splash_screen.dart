@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:covid19/ext/Constants.dart';
 import 'package:covid19/model/CountryCode.dart';
+import 'package:covid19/ui/home_page/home_page.dart';
 import 'package:covid19/utils/AppSingleton.dart';
+import 'package:covid19/utils/SizeRoute.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     AppSingleton.listCountryCode = getCodes(jsonDecode(Constants.CODE_COUNTRY_LIST));
     Future.delayed(Duration(seconds: 4)).then((_) {
-      Navigator.of(context).pushReplacementNamed(Constants.HOME_PAGE);
+      Navigator.of(context).pushReplacement(SizeRoute(page: HomePage()));
     });
   }
 
