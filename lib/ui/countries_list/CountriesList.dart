@@ -25,10 +25,6 @@ class _CountriesListState extends State<CountriesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Países"),
-        centerTitle: true,
-      ),
       body: _body(),
     );
   }

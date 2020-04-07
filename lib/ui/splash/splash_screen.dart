@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     AppSingleton.listCountryCode = getCodes(jsonDecode(Constants.CODE_COUNTRY_LIST));
-    Future.delayed(Duration(seconds: 4)).then((_) {
+    Future.delayed(Duration(seconds: 3)).then((_) {
       Navigator.of(context).pushReplacement(SizeRoute(page: HomePage()));
     });
   }

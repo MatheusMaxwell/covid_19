@@ -27,5 +27,5 @@ class Country{
       criticalCases = map['criticalCases'] ?? '',
       totalCasesPerMillion = map['totalCasesPerMillion'] ?? '',
       totalDeathsPerMillion = map['totalDeathsPerMillion'] ?? '',
-      version = map['__v'] ?? '';
+      version = map['__v'] ?? 0;
 }

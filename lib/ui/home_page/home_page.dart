@@ -6,6 +6,7 @@ import 'package:covid19/model/Current.dart';
 import 'package:covid19/model/MyResponse.dart';
 import 'package:covid19/ui/countries_list/CountriesList.dart';
 import 'package:covid19/utils/AppSingleton.dart';
+import 'package:covid19/utils/Destination.dart';
 import 'package:covid19/utils/MySharedPreferences.dart';
 import 'package:covid19/utils/SizeRoute.dart';
 import 'package:covid19/utils/Widgets.dart';
@@ -17,11 +18,12 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePage> {
 
   var searchField = "";
   Current current;
   bool isUpdate = false;
+  var _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,30 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: _body(),
+      body: _bodyIndex(_currentIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.red,
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: allDestinations.map((Destination destination) {
+          return BottomNavigationBarItem(
+              icon: Icon(destination.icon, color: destination.color,),
+              title: Text(destination.title, style: TextStyle(color: destination.color),)
+          );
+        }).toList(),
+      ),
     );
+  }
+
+  _bodyIndex(int index){
+    switch(index){
+      case 0: return _body();
+      case 1: return CountriesList();
+    }
   }
 
   _body(){
@@ -67,10 +91,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              space(10.0),
+              space(20.0),
               _button("ATUALIZAR DADOS", true),
-              space(10.0),
-              _button("PAÍSES", false)
             ],
           ),
         ),
@@ -103,9 +125,6 @@ class _HomePageState extends State<HomePage> {
             isUpdate = true;
             current = null;
           });
-        }
-        else{
-          Navigator.of(context).push(SizeRoute(page: CountriesList()));
         }
       },
     );
